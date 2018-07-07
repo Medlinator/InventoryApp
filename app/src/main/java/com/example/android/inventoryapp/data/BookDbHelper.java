@@ -11,15 +11,13 @@ import com.example.android.inventoryapp.data.BookContract.BookEntry;
  */
 public class BookDbHelper extends SQLiteOpenHelper {
 
-    public static final String LOG_TAG = BookDbHelper.class.getSimpleName();
-
     /** Name of the database file. */
     private static final String DATABASE_NAME = "bookstore.db";
 
     /**
      * Database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     /**
      * Constructs a new instance of {@link BookDbHelper}.
@@ -29,6 +27,12 @@ public class BookDbHelper extends SQLiteOpenHelper {
     public BookDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    private static final String DATABASE_ALTER_BOOKS_1 = "ALTER TABLE "
+            + BookEntry.TABLE_NAME + " ADD COLUMN " + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " string;";
+
+    private static final String DATABASE_ALTER_BOOKS_2 = "ALTER TABLE "
+            + BookEntry.TABLE_NAME + " ADD COLUMN " + BookEntry.COLUMN_BOOK_SUPPLIER_NUMBER + " string;";
 
     /**
      * This is called when the database is created for the first time.
@@ -53,6 +57,11 @@ public class BookDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // The database is still at version 1, so there's nothing to do be done here.
+        if (oldVersion < 2) {
+            db.execSQL(DATABASE_ALTER_BOOKS_1);
+        }
+        if (oldVersion < 3) {
+            db.execSQL(DATABASE_ALTER_BOOKS_2);
+        }
     }
 }

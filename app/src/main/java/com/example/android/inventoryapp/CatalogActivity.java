@@ -122,7 +122,7 @@ public class CatalogActivity extends AppCompatActivity {
         // Gets the database in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        // Create a ContentValues object where column names are the kays,
+        // Create a ContentValues object where column names are the keys,
         // and Ready Player One's attributes are the values.
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_BOOK_NAME, "Ready Player One");
@@ -131,13 +131,6 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NAME, "Sean Medlin");
         values.put(BookEntry.COLUMN_BOOK_SUPPLIER_NUMBER, "5555555555");
 
-        // Insert a new row for Ready Player One in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the books table name.
-        // The second argument provides the name of a column in which the framework
-        // can insert NULL in the event that the ContentValues is empty (if
-        // this is set to "null", then the framework will not insert a row when
-        // there are no values).
-        // The third argument is the ContentValues object containing the info for Ready Player One.
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+        db.insert(BookEntry.TABLE_NAME, null, values);
     }
 }
