@@ -3,6 +3,7 @@ package com.example.android.inventoryapp.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.android.inventoryapp.data.BookContract.BookEntry;
 
@@ -17,7 +18,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
     /**
      * Database version. If you change the database schema, you must increment the database version.
      */
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 1;
 
     /**
      * Constructs a new instance of {@link BookDbHelper}.
@@ -28,12 +29,6 @@ public class BookDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    private static final String DATABASE_ALTER_BOOKS_1 = "ALTER TABLE "
-            + BookEntry.TABLE_NAME + " ADD COLUMN " + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " string;";
-
-    private static final String DATABASE_ALTER_BOOKS_2 = "ALTER TABLE "
-            + BookEntry.TABLE_NAME + " ADD COLUMN " + BookEntry.COLUMN_BOOK_SUPPLIER_NUMBER + " string;";
-
     /**
      * This is called when the database is created for the first time.
      */
@@ -43,8 +38,8 @@ public class BookDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_BOOKS_TABLE = "CREATE TABLE " + BookEntry.TABLE_NAME + " ("
                 + BookEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + BookEntry.COLUMN_BOOK_NAME + " TEXT NOT NULL, "
-                + BookEntry.COLUMN_BOOK_PRICE + " REAL NOT NULL DEFAULT 0, "
-                + BookEntry.COLUMN_BOOK_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
+                + BookEntry.COLUMN_BOOK_PRICE + " REAL NOT NULL, "
+                + BookEntry.COLUMN_BOOK_QUANTITY + " INTEGER DEFAULT 0, "
                 + BookEntry.COLUMN_BOOK_SUPPLIER_NAME + " TEXT NOT NULL, "
                 + BookEntry.COLUMN_BOOK_SUPPLIER_NUMBER + " VARCHAR(10) NOT NULL);";
 
@@ -57,11 +52,6 @@ public class BookDbHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) {
-            db.execSQL(DATABASE_ALTER_BOOKS_1);
-        }
-        if (oldVersion < 3) {
-            db.execSQL(DATABASE_ALTER_BOOKS_2);
-        }
+        // The database is still at version 1, so there's nothing to do be done here.
     }
 }
